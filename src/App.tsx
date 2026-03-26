@@ -10,11 +10,15 @@ import Meals from './pages/Meals';
 import Activity from './pages/Activity';
 import Profile from './pages/Profile';
 import AI from './pages/AI';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="meals" element={<Meals />} />

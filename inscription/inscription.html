@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WakeUp - Créer un compte</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#001f24",
+              "inverse-primary": "#ffb692",
+              "on-secondary-fixed": "#001f23",
+              "surface-container-highest": "#e1e3e4",
+              "surface-container-low": "#f3f4f5",
+              "on-primary-container": "#582100",
+              "on-tertiary-fixed-variant": "#004e59",
+              "on-error-container": "#93000a",
+              "on-tertiary-container": "#00373f",
+              "tertiary": "#006876",
+              "on-error": "#ffffff",
+              "surface-dim": "#d9dadb",
+              "on-secondary-fixed-variant": "#004f56",
+              "on-secondary": "#ffffff",
+              "inverse-surface": "#2e3132",
+              "surface-tint": "#9f4200",
+              "secondary-container": "#8feefc",
+              "primary-fixed": "#ffdbcb",
+              "on-surface": "#191c1d",
+              "outline": "#8d7164",
+              "inverse-on-surface": "#f0f1f2",
+              "primary-container": "#ff6d00",
+              "surface-container": "#edeeef",
+              "on-surface-variant": "#594136",
+              "surface": "#f8f9fa",
+              "tertiary-container": "#00a9be",
+              "on-secondary-container": "#006d77",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "secondary-fixed": "#92f1fe",
+              "on-primary-fixed": "#341100",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#75d5e2",
+              "secondary": "#006972",
+              "on-background": "#191c1d",
+              "background": "#f8f9fa",
+              "tertiary-fixed": "#9eefff",
+              "outline-variant": "#e2bfb0",
+              "primary": "#9f4200",
+              "on-primary-fixed-variant": "#7a3000",
+              "primary-fixed-dim": "#ffb692",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-bright": "#f8f9fa",
+              "tertiary-fixed-dim": "#55d7ed",
+              "surface-variant": "#e1e3e4"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+      }
+      .bg-primary-gradient {
+        background: linear-gradient(135deg, #9f4200 0%, #ff6d00 100%);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar (Transactional Screen - Suppression of Shell) -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl">
+<div class="flex items-center justify-between px-6 py-4 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-600 dark:text-orange-500" data-icon="fitness_center">fitness_center</span>
+<h1 class="text-2xl font-black italic text-orange-600 dark:text-orange-500 tracking-tighter font-headline">WakeUp</h1>
+</div>
+<a class="text-slate-500 dark:text-slate-400 font-label text-xs font-semibold uppercase tracking-widest hover:text-orange-500 transition-colors" href="#">Aide</a>
+</div>
+</header>
+<main class="relative pt-24 pb-12 px-6 flex flex-col items-center justify-center min-h-screen overflow-hidden">
+<!-- Visual Background Accent -->
+<div class="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-primary-fixed/30 rounded-full blur-[100px] -z-10"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[300px] h-[300px] bg-secondary-fixed/20 rounded-full blur-[80px] -z-10"></div>
+<div class="w-full max-w-md space-y-8">
+<!-- Header Section -->
+<div class="space-y-2 text-center md:text-left">
+<h2 class="text-4xl font-extrabold text-on-surface font-headline tracking-tight leading-tight">
+                    Créer un compte
+                </h2>
+<p class="text-on-surface-variant font-body">
+                    Rejoignez la communauté et commencez à transformer votre routine dès aujourd'hui.
+                </p>
+</div>
+<!-- Signup Card -->
+<div class="surface-container-lowest glass-card p-8 rounded-xl shadow-sm space-y-6">
+<form class="space-y-5">
+<!-- Input Nom -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label ml-1" for="full_name">
+                            Nom complet
+                        </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="person">person</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary-container font-body text-on-surface placeholder:text-outline/60 transition-all" id="full_name" placeholder="Ex: Jean Dupont" type="text"/>
+</div>
+</div>
+<!-- Input Email -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label ml-1" for="email">
+                            Email
+                        </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="mail">mail</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary-container font-body text-on-surface placeholder:text-outline/60 transition-all" id="email" placeholder="jean.dupont@exemple.com" type="email"/>
+</div>
+</div>
+<!-- Input Password -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label ml-1" for="password">
+                            Mot de passe
+                        </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="lock">lock</span>
+<input class="w-full pl-12 pr-12 py-3.5 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary-container font-body text-on-surface placeholder:text-outline/60 transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary-gradient text-on-primary font-bold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 group" type="submit">
+                        Commencer l'aventure
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative flex items-center justify-center py-2">
+<div class="w-full h-[1px] bg-outline-variant/30"></div>
+<span class="absolute px-4 bg-white text-xs font-label uppercase tracking-widest text-outline">Ou s'inscrire avec</span>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-3 px-4 bg-surface-container-high hover:bg-surface-container-highest rounded-xl transition-colors font-semibold text-on-surface-variant">
+<img alt="Google" class="w-5 h-5" data-alt="clean and minimal vector illustration of the official google logo icon in its brand colors on white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdWl3l1dWfp2Q1q3MtfmRG70fK4wmwpxzjekDSg0fQFmKk6Jt9pxbfbVqaLmL93_JRp5ZBmtEr2TLncuRVRsN9QnpfSRn3gKFZwnru-Ktdwn7IYml2hyAZwYlu6XDjLRzy9_d4ldvjhL7aH_7KFdz1abGUe_8eLRrMFGScBHBgNvWL6TG0PrNUoHjZYbFiPevA5O3EYzO2cdZiP2Lk5iGyAzx7rkOe7AVCgK5Ex6TRaK_EpL-dbRtOPnSwfgwtUkTKlVcKgHLdFf_w"/>
+                        Google
+                    </button>
+<button class="flex items-center justify-center gap-3 py-3 px-4 bg-surface-container-high hover:bg-surface-container-highest rounded-xl transition-colors font-semibold text-on-surface-variant">
+<span class="material-symbols-outlined text-xl" data-icon="apple" style="font-variation-settings: 'FILL' 1;">ios</span>
+                        Apple
+                    </button>
+</div>
+</div>
+<!-- Footer Link -->
+<div class="text-center space-y-4">
+<p class="text-on-surface-variant font-body">
+                    Déjà un compte ? <a class="text-primary font-bold hover:underline underline-offset-4" href="#">Se connecter</a>
+</p>
+<p class="text-[10px] text-outline font-label uppercase tracking-widest max-w-[280px] mx-auto leading-relaxed">
+                    En vous inscrivant, vous acceptez nos <a class="underline" href="#">Conditions d'utilisation</a> et notre <a class="underline" href="#">Politique de confidentialité</a>.
+                </p>
+</div>
+</div>
+</main>
+<!-- Visual Element: Floating Image Card (Bento-style snippet) -->
+<div class="hidden lg:block fixed right-12 bottom-12 w-80">
+<div class="bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+<div class="rounded-xl overflow-hidden aspect-square mb-4">
+<img alt="Morning Workout" class="w-full h-full object-cover" data-alt="close-up of a fit person lacing up bright orange running shoes on a clean modern wooden floor with morning sunlight streaming in" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtksaMEWZ_GctEWHDe8MIRKjgacqlLDXsYFK0l3ftml7y3CR75_Y2dSmL20e-rQDESmwumjZFQvTwseDQYikbW-3PpS1F7FSWPadqo36_Uls534fNhtadLNasFoyqj-nw8AnBz6uOVf5rkVRkIcvUqmGf-RA9YNERdh055eJxSbZdhZgaTSvTTdE4oCSr51w3FZX4o1X4y9Axssy5GXQdQhsVhkR1hsc7GuWzWxywfkdJs6iUSrFNMcJE-GzAeHrL6TaMy8ictUNfJ"/>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-primary">Prochaine étape</p>
+<p class="font-headline font-extrabold text-on-surface">Définir vos objectifs</p>
+</div>
+<div class="w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>
