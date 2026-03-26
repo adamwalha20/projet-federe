@@ -29,7 +29,7 @@ const Login: React.FC = () => {
       {/* Main Content Shell */}
       <main className="relative z-10 w-full max-w-md px-6 py-12">
         {/* Login Card */}
-        <div className="glass-card rounded-[2.5rem] p-10 shadow-2xl transition-all duration-300">
+        <div className="bg-white/90 backdrop-blur-2xl rounded-[2.5rem] p-10 shadow-2xl transition-all duration-300 border border-white/20">
           {/* Brand Identity Anchor */}
           <div className="flex flex-col items-center mb-10">
             <div className="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
@@ -116,7 +116,9 @@ const Login: React.FC = () => {
                 <span className="text-xs font-bold text-on-surface-variant">Google</span>
               </button>
               <button className="flex items-center justify-center py-3 bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors border border-outline-variant/10">
-                <span className="material-symbols-outlined text-on-surface-variant mr-2">apple</span>
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.05,20.28c-0.96,0-1.66-0.6-2.9-0.6s-2.04,0.6-2.9,0.6c-1.66,0-4.08-3-4.08-6.09c0-3.08,2.11-4.58,3.95-4.58c0.95,0,1.85,0.59,2.49,0.59c0.61,0,1.64-0.68,2.78-0.68c1.39,0,3.31,0.79,4.18,2.3c-0.03,0.02-2.52,1.26-2.5,4.3c0.03,3.02,2.48,4.09,2.5,4.1C20.46,20.3,18.52,20.28,17.05,20.28z M12.03,7.52c-0.02-1.1,0.5-2.25,1.11-2.99c0.6-0.75,1.7-1.33,2.75-1.33c0.01,1.13-0.41,2.25-1.12,3C14.07,7.96,12.98,8.51,12.03,7.52z"/>
+                </svg>
                 <span className="text-xs font-bold text-on-surface-variant">Apple</span>
               </button>
             </div>

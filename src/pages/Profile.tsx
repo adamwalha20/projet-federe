@@ -1,4 +1,12 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function Profile() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // For now, just a direct navigation to login
+    navigate('/login');
+  };
   return (
     <main className="pt-24 px-6 max-w-2xl mx-auto pb-32">
       {/* Profile Header Section */}
@@ -127,6 +135,20 @@ export default function Profile() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Logout Action */}
+      <section className="mt-12 mb-8">
+        <button 
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-3 py-5 bg-error-container/20 text-error font-bold rounded-3xl border-2 border-dashed border-error/20 hover:bg-error-container/30 transition-all group"
+        >
+          <span className="material-symbols-outlined text-error">logout</span>
+          <span>Log out</span>
+        </button>
+        <p className="text-center text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-40 mt-4">
+          TuniFit Version 0.3.0
+        </p>
       </section>
     </main>
   );
