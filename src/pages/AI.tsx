@@ -15,21 +15,32 @@ interface AIInsight {
   image?: string;
 }
 
+interface N8nStructuredData {
+  status: string;
+  calorie_feedback: string;
+  activity_feedback: string;
+  food_feedback: string;
+  recommendations: string[];
+  notifications: string[];
+  prediction: string;
+}
+
 export default function AI() {
   const { user, meals, activities, steps } = useStore();
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'ai',
-      content: "Hello! Based on your recent health data, I'm analyzing your routine. How can I help you today?"
+      content: "Hello! I'm analyzing your TuniFit health data. How can I help you today?"
     }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [n8nData, setN8nData] = useState<N8nStructuredData | null>(null);
   const [insights, setInsights] = useState<AIInsight[]>([
     {
       type: 'NUTRITION',
-      title: 'Optimize your lunch',
-      description: 'Based on your metabolism, we suggest substituting fried foods for grilled Grilled Sea Bream to maintain ketosis.',
+      title: 'Syncing your data...',
+      description: 'Please wait while I analyze your latest meals and activities to provide custom recommendations.',
       image: '/images/meals/couscous.png'
     }
   ]);
@@ -44,9 +55,36 @@ export default function AI() {
     scrollToBottom();
   }, [messages]);
 
+  // Robust parser for n8n's nested output format
+  const parseN8nResponse = (data: any) => {
+    try {
+      if (!data) return null;
+      
+      // Handle array response: [{ output: "..." }]
+      const first = Array.isArray(data) ? data[0] : data;
+      const outputStr = first?.output || first?.reply || "";
+      
+      // If it looks like a markdown code block: ```json\n{...}\n```
+      const jsonMatch = outputStr.match(/```json\n([\s\S]*?)\n```/) || outputStr.match(/```([\s\S]*?)```/);
+      const cleanJson = jsonMatch ? jsonMatch[1] : outputStr;
+      
+      // If it's pure JSON string, parse it.
+      // If parsing fails, it might just be a regular message string.
+      try {
+        return JSON.parse(cleanJson);
+      } catch {
+        return { reply: outputStr }; // Fallback to a simple reply object
+      }
+    } catch (e) {
+      console.error("Critical parsing error", e);
+      return null;
+    }
+  };
+
   // Initial fetch of insights
   useEffect(() => {
     const fetchInsights = async () => {
+      setLoading(true);
       const response = await sendToN8n({
         type: 'initial_insights',
         user,
@@ -54,9 +92,20 @@ export default function AI() {
         activities,
         steps
       });
-      if (response && response.insights) {
-        setInsights(response.insights);
+      
+      const parsed = parseN8nResponse(response);
+      if (parsed && parsed.recommendations) {
+        setN8nData(parsed);
+        // Map recommendations to our AIInsight format
+        const newInsights = parsed.recommendations.map((rec: string, idx: number) => ({
+          type: idx % 2 === 0 ? 'NUTRITION' : 'ACTIVITY',
+          title: idx === 0 ? "Top Recommendation" : `Tip #${idx + 1}`,
+          description: rec,
+          image: idx === 0 ? '/images/meals/couscous.png' : undefined
+        }));
+        setInsights(newInsights);
       }
+      setLoading(false);
     };
     fetchInsights();
   }, []);
@@ -79,8 +128,22 @@ export default function AI() {
       steps
     });
 
-    if (response && response.reply) {
-      setMessages(prev => [...prev, { role: 'ai', content: response.reply }]);
+    const parsed = parseN8nResponse(response);
+    if (parsed) {
+      const reply = parsed.output || parsed.reply || (typeof parsed === 'string' ? parsed : "I've processed your data. Check the insights section for updates!");
+      setMessages(prev => [...prev, { role: 'ai', content: reply }]);
+      
+      // If the chat response also updated recommendations, update the UI
+      if (parsed.recommendations) {
+        setN8nData(parsed);
+        const newInsights = parsed.recommendations.map((rec: string, idx: number) => ({
+          type: idx % 2 === 0 ? 'NUTRITION' : 'ACTIVITY',
+          title: idx === 0 ? "Top Recommendation" : `Tip #${idx + 1}`,
+          description: rec,
+          image: idx === 0 ? '/images/meals/couscous.png' : undefined
+        }));
+        setInsights(newInsights);
+      }
     } else {
       setMessages(prev => [...prev, { role: 'ai', content: "I'm having trouble connecting right now. Please try again later." }]);
     }
@@ -90,13 +153,67 @@ export default function AI() {
   return (
     <main className="pt-24 pb-12 px-6 max-w-2xl mx-auto space-y-8">
       {/* Header & Title */}
-      <header className="space-y-2">
-        <div className="flex items-center gap-2 text-primary font-bold">
-          <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-          <span className="font-label text-xs uppercase tracking-widest">AI Recommendations</span>
+      <header className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-primary font-bold">
+              <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+              <span className="font-label text-xs uppercase tracking-widest">AI Recommendations</span>
+            </div>
+            <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight leading-none">TuniFit AI Insights</h1>
+          </div>
+          {n8nData && (
+            <div className={clsx(
+              "px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-sm border",
+              n8nData.status === 'balanced' ? "bg-green-50 text-green-700 border-green-100" : "bg-orange-50 text-orange-700 border-orange-100"
+            )}>
+              <span className="w-2 h-2 rounded-full bg-current animate-pulse"></span>
+              Status: {n8nData.status}
+            </div>
+          )}
         </div>
-        <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight leading-none">TuniFit AI Insights</h1>
       </header>
+
+      {/* Notifications Section */}
+      {n8nData && n8nData.notifications && n8nData.notifications.length > 0 && (
+        <section className="space-y-3">
+          {n8nData.notifications.map((note, i) => (
+            <div key={i} className="bg-primary/5 border border-primary/10 rounded-2xl p-4 flex items-center gap-4 animate-in fade-in slide-in-from-top-2 duration-500">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <span className="material-symbols-outlined text-lg">notifications_active</span>
+              </div>
+              <p className="text-sm font-medium text-on-surface">{note}</p>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Daily Overview / Feedback Bento */}
+      {n8nData && (
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-surface-container-low p-6 rounded-[2rem] space-y-3 border border-slate-100 transition-all hover:border-primary/20">
+            <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
+              <span className="material-symbols-outlined">restaurant</span>
+            </div>
+            <h4 className="font-headline font-bold text-lg">Nutrition</h4>
+            <p className="text-xs text-on-surface-variant leading-relaxed line-clamp-4">{n8nData.food_feedback}</p>
+          </div>
+          <div className="bg-surface-container-low p-6 rounded-[2rem] space-y-3 border border-slate-100 transition-all hover:border-primary/20">
+            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-2">
+              <span className="material-symbols-outlined">bolt</span>
+            </div>
+            <h4 className="font-headline font-bold text-lg">Calories</h4>
+            <p className="text-xs text-on-surface-variant leading-relaxed line-clamp-4">{n8nData.calorie_feedback}</p>
+          </div>
+          <div className="bg-surface-container-low p-6 rounded-[2rem] space-y-3 border border-slate-100 transition-all hover:border-primary/20">
+            <div className="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-2">
+              <span className="material-symbols-outlined">directions_run</span>
+            </div>
+            <h4 className="font-headline font-bold text-lg">Activity</h4>
+            <p className="text-xs text-on-surface-variant leading-relaxed line-clamp-4">{n8nData.activity_feedback}</p>
+          </div>
+        </section>
+      )}
 
       {/* Bento Recommendations Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -158,7 +275,9 @@ export default function AI() {
               <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-bold text-[10px] text-tertiary">Goal</div>
             </div>
           </div>
-          <p className="text-[11px] font-medium text-on-surface-variant italic">Reach 72kg by July 15th</p>
+          <p className="text-[11px] font-medium text-on-surface-variant italic">
+            {n8nData ? `Currently ${n8nData.prediction}` : 'Syncing data...'}
+          </p>
         </div>
       </section>
 

@@ -39,3 +39,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.6] - 2026-03-26
 ### Changed
 - Integrated n8n AI webhook for dynamic insights and chat
+
+## [0.2.7] - 2026-03-26
+### Changed
+- Implemented robust n8n parsing for structured AI insights and notifications
