@@ -130,7 +130,15 @@ export default function AI() {
 
     const parsed = parseN8nResponse(response);
     if (parsed) {
-      const reply = parsed.output || parsed.reply || (typeof parsed === 'string' ? parsed : "I've processed your data. Check the insights section for updates!");
+      // Prioritize explicit reply fields, then fall back to feedback or raw output
+      const first = Array.isArray(response) ? response[0] : response;
+      const rawOutput = first?.output || first?.reply || first?.text || "";
+      
+      const reply = parsed.reply || parsed.message || parsed.text || 
+                    parsed.calorie_feedback || parsed.activity_feedback || 
+                    (typeof parsed === 'string' ? parsed : rawOutput) || 
+                    "I've processed your data. Check the insights section for updates!";
+      
       setMessages(prev => [...prev, { role: 'ai', content: reply }]);
       
       // If the chat response also updated recommendations, update the UI

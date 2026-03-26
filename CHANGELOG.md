@@ -43,3 +43,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.7] - 2026-03-26
 ### Changed
 - Implemented robust n8n parsing for structured AI insights and notifications
+
+## [0.2.8] - 2026-03-26
+### Changed
+- Fixed AI chat reply logic to prioritize actual webhook content over fallback messages
