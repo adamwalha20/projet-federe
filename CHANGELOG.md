@@ -23,3 +23,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.2] - 2026-03-26
 ### Changed
 - Final TuniFit rebranding polish: fixed day headers and confirmed visual parity
+
+## [0.2.3] - 2026-03-26
+### Changed
+- Project Finalized: Fixed mobile navigation and dark mode; completed all translations

@@ -20,7 +20,7 @@ export default function AI() {
               <span className="font-label text-[10px] font-bold text-on-secondary-container uppercase">Nutrition</span>
             </div>
             <h3 className="font-headline font-bold text-2xl text-on-surface">Optimize your lunch</h3>
-            <p className="text-on-surface-variant leading-relaxed">Based on your metabolism, we suggest substituting fried foods for grilled <span className="text-primary font-bold italic">Dorade grillée</span> to maintain ketosis.</p>
+            <p className="text-on-surface-variant leading-relaxed">Based on your metabolism, we suggest substituting fried foods for grilled <span className="text-primary font-bold italic">Grilled Sea Bream</span> to maintain ketosis.</p>
             <button className="bg-primary-container text-on-primary-container px-6 py-3 rounded-full font-bold text-sm inline-flex items-center gap-2 active:scale-95 transition-transform">
               See Recipe <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
@@ -28,7 +28,7 @@ export default function AI() {
           <div className="w-full md:w-48 h-48 rounded-2xl overflow-hidden relative">
             <img 
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT5bodbrrDe4Rp0gjFk-MRDwgOASwhSszAyOfQ1joLq28j8hxATChRC2JMAJUoHntT37AjGf4emvlpwxpId6LKm5H19xNi4T8EGAo-v-uSO8b3McIiiDxYlt_cXJhPamPSu_0ZIoRkaM-CPf7GSKSz0gyycBkE2DG_Gy_y-rbLW52FQTRdaY9XhLeL23Gp0FyzJXsljl_mdu8EZCiAVSe0YlSBX2qiyWslobAl1V9XGevmak4xMujnDKY5BYITuY5FQl6KScb5HxOl" 
-              alt="Grilled Dorade" 
+              alt="Grilled Sea Bream" 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               referrerPolicy="no-referrer"
             />

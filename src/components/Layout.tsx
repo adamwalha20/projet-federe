@@ -13,7 +13,7 @@ export default function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface font-body pb-32">
+    <div className="min-h-screen bg-surface dark:bg-slate-950 text-on-surface font-body pb-24">
       {/* TopAppBar */}
       <header className="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-3">
@@ -35,8 +35,8 @@ export default function Layout() {
       {/* Main Content */}
       <Outlet />
 
-      {/* BottomNavBar */}
-      <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl z-50 rounded-t-[32px] shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
+      {/* BottomNav - Mobile Premium Style */}
+      <nav className="fixed bottom-4 left-4 right-4 h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl z-50 rounded-[2rem] border border-white/20 dark:border-slate-800/50 shadow-2xl flex justify-around items-center px-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -44,19 +44,27 @@ export default function Layout() {
               key={item.path}
               to={item.path}
               className={clsx(
-                "flex flex-col items-center justify-center px-5 py-2 transition-all duration-200 active:scale-90",
+                "flex flex-col items-center justify-center w-14 h-14 transition-all duration-300 active:scale-90",
                 isActive 
-                  ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-2xl" 
-                  : "text-slate-400 dark:text-slate-500 hover:text-orange-500"
+                  ? "text-primary dark:text-orange-400" 
+                  : "text-slate-400 dark:text-slate-500"
               )}
             >
-              <span 
-                className="material-symbols-outlined mb-1"
-                style={isActive ? { fontVariationSettings: "'FILL' 1" } : {}}
-              >
-                {item.icon}
-              </span>
-              <span className={clsx("font-['Inter'] text-[11px] font-semibold uppercase tracking-wider mt-1", isActive && "text-orange-600")}>
+              <div className={clsx(
+                "p-2 rounded-xl transition-all duration-300",
+                isActive && "bg-primary/10 dark:bg-orange-400/10"
+              )}>
+                <span 
+                  className="material-symbols-outlined block"
+                  style={isActive ? { fontVariationSettings: "'FILL' 1" } : {}}
+                >
+                  {item.icon}
+                </span>
+              </div>
+              <span className={clsx(
+                "font-['Inter'] text-[9px] font-bold uppercase tracking-tighter mt-1 transition-all",
+                isActive ? "opacity-100 scale-100" : "opacity-60 scale-95"
+              )}>
                 {item.label}
               </span>
             </Link>
