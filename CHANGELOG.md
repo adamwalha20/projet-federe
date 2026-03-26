@@ -47,3 +47,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.8] - 2026-03-26
 ### Changed
 - Fixed AI chat reply logic to prioritize actual webhook content over fallback messages
+
+## [0.2.9] - 2026-03-26
+### Changed
+- Fixed AI output format: improved JSON regex and added advice field support

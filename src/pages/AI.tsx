@@ -62,18 +62,17 @@ export default function AI() {
       
       // Handle array response: [{ output: "..." }]
       const first = Array.isArray(data) ? data[0] : data;
-      const outputStr = first?.output || first?.reply || "";
+      const outputStr = (first?.output || first?.reply || first?.text || "").trim();
       
-      // If it looks like a markdown code block: ```json\n{...}\n```
-      const jsonMatch = outputStr.match(/```json\n([\s\S]*?)\n```/) || outputStr.match(/```([\s\S]*?)```/);
+      // If it looks like a markdown code block (flexible with newlines)
+      const jsonMatch = outputStr.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
       const cleanJson = jsonMatch ? jsonMatch[1] : outputStr;
       
-      // If it's pure JSON string, parse it.
-      // If parsing fails, it might just be a regular message string.
       try {
-        return JSON.parse(cleanJson);
+        const parsed = JSON.parse(cleanJson);
+        return parsed;
       } catch {
-        return { reply: outputStr }; // Fallback to a simple reply object
+        return { reply: outputStr };
       }
     } catch (e) {
       console.error("Critical parsing error", e);
@@ -134,7 +133,7 @@ export default function AI() {
       const first = Array.isArray(response) ? response[0] : response;
       const rawOutput = first?.output || first?.reply || first?.text || "";
       
-      const reply = parsed.reply || parsed.message || parsed.text || 
+      const reply = parsed.reply || parsed.message || parsed.text || parsed.advice ||
                     parsed.calorie_feedback || parsed.activity_feedback || 
                     (typeof parsed === 'string' ? parsed : rawOutput) || 
                     "I've processed your data. Check the insights section for updates!";
