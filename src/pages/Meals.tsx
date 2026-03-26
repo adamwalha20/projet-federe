@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useStore } from '../store/useStore';
 
 export default function Meals() {
@@ -8,52 +8,79 @@ export default function Meals() {
   const dishes = [
     {
       id: 1,
-      name: "Couscous au poisson",
-      calories: 800,
-      serving: "350g serving",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDpCQjuOSdhEqe5aV4XCwd-6SVD6OKTK4GQv-1_SYN6EMH1fQibJ9Xes5Sy0zkCRuha-ZQT_DoLS4Uke9MHa7P2mvItJO8E89JrlvguCwT0bTBgYApg_zt1OLBMP8whc9n9qzsff3rxP5-xP8Xn0dAmKmiAFkUJWFrvSk2aVqeohXoAQgZb2NEZUeAUoYQo4-PFw3PZTyVQRcJT0DTYENsin33tW6NrDTdMGdMfnei1WsJpC5z8Cpf1FK-c_ZZ5_aYohhGk_IfXSJlL"
+      name: "Couscous with Lamb",
+      calories: 850,
+      serving: "Large portion",
+      ingredients: "Semolina, Lamb, Chickpeas, Carrots, Potatoes, Zucchini, Spices",
+      image: "/images/meals/couscous.png"
     },
     {
       id: 2,
-      name: "Brik au thon",
-      calories: 150,
+      name: "Brik with Tuna",
+      calories: 280,
       serving: "1 piece",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBmN0_pyRMnd54vkREHL9loTCDTDwwMKkBCX8WSEWCAjQFLMQ23g7Kz9VtKtfqvJCM93k1G3q6d2r7CrAWblcDXkxaPiKuzsHlesiMnfaUezk34uYgIcf6m1Obm0xZsxZnoAM87L2LB6RkQMOUgrpQgGD4n2UKXBp9yXI4wBW0AakNoC-qtqdRKLc8D0k0u4HfAWndfWbuDN2tMl_Uewhjk6pjwdwwBmFpyQXNqh6iWMHhtsTPodJJ0eja_MGIt8fklyKUF7-KP0zN5"
+      ingredients: "Pastry, Egg, Tuna, Parsley, Capers, Onion",
+      image: "/images/meals/brik.png"
     },
     {
       id: 3,
-      name: "Ojja merguez",
+      name: "Ojja Merguez",
       calories: 450,
-      serving: "standard portion",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJL4QacZo2apzby4B4uDQNOEmyoQJskhzl2ZEdsIQjwluThW-CS-UBB2xrVstIYIVsGSKn6dw9o2tBBjh4aZeH-AK3cD9MmOUChbhmG72PaDimFnu4OJneDR_5_pBnCPvk0bPLmveM0U8nlbSTiK07xWHjqGcyhtiyduD4E7mx6qS5RMWnaeKyYI5YyL8xLsrr5v7Fok6bQl01__hWIa1Iw9noEbZ5fY-II_m9Kd5TvCdSwEgRDDXVhSjpFcWM62eLqxMKWgYNwdC4"
+      serving: "Standard portion",
+      ingredients: "Eggs, Merguez sausages, Peppers, Tomatoes, Garlic, Harissa",
+      image: "/images/meals/ojja.png"
     },
     {
       id: 4,
       name: "Lablabi",
-      calories: 700,
-      serving: "full bowl",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCFu-ap5u2swkrQf-jlk09S9QFTe0_soB2QgCjLMWjstV2CVbe8nJ4_0fQ2GHGlDy7TL85lF4bdZq5RBf7oL06iNOsa7JGE8PqHroAzqHv98Ix9iaAwy1opSCR6LXRPkvt5RucIz3Tmu3sx4Ksy5bTBn9F_YIP9giMudmenU8H5AQXNaPO_tMeRZpW6QM7JgXcJmj6SOEP4EnzKPQfU4kf2xy_zvaONvBDkwIyeF6cuO6USckuPWzcB_Y9d0q6tERVORNh3azCzCMel"
+      calories: 650,
+      serving: "Full bowl",
+      ingredients: "Chickpeas, Bread, Garlic, Cumin, Harissa, Olive oil, Egg",
+      image: "/images/meals/lablabi.png"
     }
   ];
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newMeal, setNewMeal] = useState({ name: '', calories: '', serving: '', ingredients: '' });
 
   const filteredDishes = dishes.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
   const totalCalories = meals.reduce((acc, meal) => acc + meal.calories, 0) || 2100;
 
-  const handleAddMeal = (dish: typeof dishes[0]) => {
+  const handleAddMeal = (dish: any) => {
     logMeal({
       meal_name: dish.name,
-      calories: dish.calories
+      calories: dish.calories,
+      ingredients: dish.ingredients
     });
-    // Optional: Add a toast notification here
+  };
+
+  const handleSubmitCustomMeal = (e: FormEvent) => {
+    e.preventDefault();
+    logMeal({
+      meal_name: newMeal.name,
+      calories: parseInt(newMeal.calories),
+      ingredients: newMeal.ingredients
+    });
+    setNewMeal({ name: '', calories: '', serving: '', ingredients: '' });
+    setShowAddForm(false);
   };
 
   return (
     <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-8">
       {/* Hero Section / Search */}
       <section className="space-y-6">
-        <div className="space-y-1">
-          <p className="text-primary font-headline font-bold uppercase tracking-widest text-xs">Calorie Tracker</p>
-          <h2 className="text-3xl font-headline font-extrabold text-on-surface tracking-tight">Tunisian Flavors</h2>
+        <div className="flex justify-between items-start">
+          <div className="space-y-1">
+            <p className="text-primary font-headline font-bold uppercase tracking-widest text-xs">Calorie Tracker</p>
+            <h2 className="text-3xl font-headline font-extrabold text-on-surface tracking-tight">Tunisian Flavors</h2>
+          </div>
+          <button 
+            onClick={() => setShowAddForm(true)}
+            className="p-3 rounded-2xl bg-primary text-white shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+            <span className="text-sm font-bold">Add Custom</span>
+          </button>
         </div>
         
         {/* Search Bar */}
@@ -70,6 +97,80 @@ export default function Meals() {
           />
         </div>
       </section>
+
+      {/* Add Meal Form (Modal-like) */}
+      {showAddForm && (
+        <section className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl space-y-6 animate-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-headline font-bold">New Custom Meal</h3>
+              <button 
+                onClick={() => setShowAddForm(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors"
+                title="Close"
+              >
+                <span className="material-symbols-outlined text-base">close</span>
+              </button>
+            </div>
+            
+            <form onSubmit={handleSubmitCustomMeal} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-500 ml-1">Meal Name</label>
+                <input 
+                  required
+                  type="text" 
+                  placeholder="e.g. Shakshuka"
+                  className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-primary/20 transition-all border-none outline-none"
+                  value={newMeal.name}
+                  onChange={e => setNewMeal({...newMeal, name: e.target.value})}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-500 ml-1">Calories (kcal)</label>
+                  <input 
+                    required
+                    type="number" 
+                    placeholder="e.g. 450"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-primary/20 transition-all border-none outline-none"
+                    value={newMeal.calories}
+                    onChange={e => setNewMeal({...newMeal, calories: e.target.value})}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-500 ml-1">Serving Size</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. 200g"
+                    className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-primary/20 transition-all border-none outline-none"
+                    value={newMeal.serving}
+                    onChange={e => setNewMeal({...newMeal, serving: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-500 ml-1">Ingredients</label>
+                <textarea 
+                  rows={3}
+                  placeholder="List main ingredients..."
+                  className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-primary/20 transition-all border-none outline-none resize-none"
+                  value={newMeal.ingredients}
+                  onChange={e => setNewMeal({...newMeal, ingredients: e.target.value})}
+                />
+              </div>
+
+              <button 
+                type="submit"
+                className="w-full py-4 bg-primary text-white font-bold rounded-2xl hover:bg-primary-dark transition-all transform active:scale-95 shadow-lg shadow-primary/20"
+              >
+                Log Meal
+              </button>
+            </form>
+          </div>
+        </section>
+      )}
 
       {/* List Section */}
       <section className="space-y-4">

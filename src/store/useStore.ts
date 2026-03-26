@@ -15,6 +15,7 @@ interface MealLog {
   user_id: string;
   meal_name: string;
   calories: number;
+  ingredients?: string;
   created_at: string;
 }
 

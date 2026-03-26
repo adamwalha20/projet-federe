@@ -31,3 +31,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.4] - 2026-03-26
 ### Changed
 - Fixed Mobile Theme: Reverted to white UI to match PC appearance
+
+## [0.2.5] - 2026-03-26
+### Changed
+- Added Tunisian meals with real images and implemented custom meal logging with ingredients
