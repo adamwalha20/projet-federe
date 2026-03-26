@@ -77,7 +77,7 @@ export default function Activity() {
         <div className="flex items-end justify-between h-40 gap-2">
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[40%]"></div>
-            <span className="font-label text-[10px] text-outline">T</span>
+            <span className="font-label text-[10px] text-outline">M</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[65%]"></div>
@@ -85,11 +85,11 @@ export default function Activity() {
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[50%]"></div>
-            <span className="font-label text-[10px] text-outline">T</span>
+            <span className="font-label text-[10px] text-outline">W</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-primary rounded-t-lg h-[85%] shadow-[0_0_20px_rgba(159,66,0,0.2)]"></div>
-            <span className="font-label text-[10px] text-on-surface font-bold">J</span>
+            <span className="font-label text-[10px] text-on-surface font-bold">T</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[45%]"></div>
@@ -101,7 +101,7 @@ export default function Activity() {
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[30%]"></div>
-            <span className="font-label text-[10px] text-outline">D</span>
+            <span className="font-label text-[10px] text-outline">S</span>
           </div>
         </div>
       </section>

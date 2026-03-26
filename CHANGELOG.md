@@ -19,3 +19,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.1] - 2026-03-26
 ### Changed
 - Rebranded app to TuniFit, localized to English, and fixed layout clipping bugs
+
+## [0.2.2] - 2026-03-26
+### Changed
+- Final TuniFit rebranding polish: fixed day headers and confirmed visual parity
