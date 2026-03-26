@@ -31,12 +31,12 @@ export default function Activity() {
             {/* Center Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="font-headline font-extrabold text-5xl tracking-tighter text-on-surface">{steps.toLocaleString()}</span>
-              <span className="font-label text-sm uppercase tracking-widest text-outline">/ 10,000 pas</span>
+              <span className="font-label text-sm uppercase tracking-widest text-outline">/ 10,000 steps</span>
             </div>
           </div>
           <div className="flex items-center gap-2 bg-secondary-container/30 px-4 py-2 rounded-full">
             <span className="material-symbols-outlined text-secondary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
-            <p className="font-body font-semibold text-secondary text-sm tracking-tight">Presque au but ! Continuez comme ça.</p>
+            <p className="font-body font-semibold text-secondary text-sm tracking-tight">Almost there! Keep it up.</p>
           </div>
         </div>
       </section>
@@ -65,8 +65,8 @@ export default function Activity() {
       <section className="bg-surface-container p-6 rounded-3xl">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h2 className="font-headline font-bold text-xl text-on-surface">Statistiques</h2>
-            <p className="font-body text-sm text-outline">Moyenne hebdomadaire : 7.2k</p>
+            <h2 className="font-headline font-bold text-xl text-on-surface">Statistics</h2>
+            <p className="font-body text-sm text-outline">Weekly Average : 7.2k</p>
           </div>
           <div className="flex gap-2">
             <span className="w-2 h-2 rounded-full bg-primary"></span>
@@ -77,15 +77,15 @@ export default function Activity() {
         <div className="flex items-end justify-between h-40 gap-2">
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[40%]"></div>
-            <span className="font-label text-[10px] text-outline">L</span>
+            <span className="font-label text-[10px] text-outline">T</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[65%]"></div>
-            <span className="font-label text-[10px] text-outline">M</span>
+            <span className="font-label text-[10px] text-outline">T</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[50%]"></div>
-            <span className="font-label text-[10px] text-outline">M</span>
+            <span className="font-label text-[10px] text-outline">T</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-primary rounded-t-lg h-[85%] shadow-[0_0_20px_rgba(159,66,0,0.2)]"></div>
@@ -93,7 +93,7 @@ export default function Activity() {
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[45%]"></div>
-            <span className="font-label text-[10px] text-outline">V</span>
+            <span className="font-label text-[10px] text-outline">F</span>
           </div>
           <div className="flex-1 flex flex-col items-center gap-3">
             <div className="w-full bg-surface-container-high rounded-t-lg h-[60%]"></div>
@@ -109,8 +109,8 @@ export default function Activity() {
       {/* Activity List Section */}
       <section className="space-y-6">
         <div className="flex justify-between items-center">
-          <h2 className="font-headline font-bold text-xl text-on-surface">Aujourd'hui</h2>
-          <button className="font-label text-sm font-bold text-primary">Voir tout</button>
+          <h2 className="font-headline font-bold text-xl text-on-surface">Today</h2>
+          <button className="font-label text-sm font-bold text-primary">View all</button>
         </div>
         
         <div className="space-y-3">
@@ -139,7 +139,7 @@ export default function Activity() {
             </div>
           ))}
           {activities.length === 0 && (
-            <p className="text-center text-outline text-sm py-4">Aucune activité enregistrée aujourd'hui.</p>
+            <p className="text-center text-outline text-sm py-4">No activity logged today.</p>
           )}
         </div>
       </section>
@@ -150,8 +150,8 @@ export default function Activity() {
           <div className="absolute top-0 right-0 p-4 opacity-20 transform translate-x-4 -translate-y-4">
             <span className="material-symbols-outlined text-8xl">format_quote</span>
           </div>
-          <p className="font-headline font-bold text-xl italic leading-tight relative z-10">"Chaque pas compte vers la version la plus dynamique de vous-même."</p>
-          <p className="mt-4 text-sm font-label opacity-80 relative z-10">L'équipe WakeUp</p>
+          <p className="font-headline font-bold text-xl italic leading-tight relative z-10">"Every step counts toward the most dynamic version of yourself."</p>
+          <p className="mt-4 text-sm font-label opacity-80 relative z-10">The TuniFit Team</p>
         </div>
       </section>
     </main>

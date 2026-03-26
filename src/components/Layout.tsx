@@ -25,7 +25,7 @@ export default function Layout() {
               referrerPolicy="no-referrer"
             />
           </div>
-          <span className="text-2xl font-black italic text-orange-600 dark:text-orange-500 font-headline tracking-tight">WakeUp</span>
+          <span className="text-2xl font-black italic text-orange-600 dark:text-orange-500 font-headline tracking-tight">TuniFit</span>
         </div>
         <button className="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-orange-600 hover:opacity-80 transition-opacity active:scale-95">
           <span className="material-symbols-outlined">notifications</span>

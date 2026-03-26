@@ -1,13 +1,13 @@
 export default function AI() {
   return (
-    <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-8">
+    <main className="pt-24 pb-12 px-6 max-w-2xl mx-auto space-y-8">
       {/* Header & Title */}
       <header className="space-y-2">
         <div className="flex items-center gap-2 text-primary font-bold">
           <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
           <span className="font-label text-xs uppercase tracking-widest">AI Recommendations</span>
         </div>
-        <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight leading-none">Insights de WakeUp IA</h1>
+        <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight leading-none">TuniFit AI Insights</h1>
       </header>
 
       {/* Bento Recommendations Grid */}
@@ -55,7 +55,7 @@ export default function AI() {
         </div>
 
         {/* Prediction Weight Loss Chart */}
-        <div className="bg-surface-container-low rounded-[2rem] p-6 space-y-4 overflow-hidden relative">
+        <div className="bg-surface-container-low rounded-[2rem] p-6 space-y-4 overflow-hidden relative min-h-[220px]">
           <div className="flex items-center gap-2 mb-2">
             <span className="material-symbols-outlined text-tertiary">trending_down</span>
             <span className="font-label text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Prediction</span>
@@ -83,7 +83,7 @@ export default function AI() {
               <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
             </div>
             <div>
-              <div className="font-headline font-bold">WakeUp AI</div>
+              <div className="font-headline font-bold">TuniFit AI</div>
               <div className="text-[10px] opacity-80 uppercase tracking-widest font-bold">Active Assistant</div>
             </div>
           </div>
