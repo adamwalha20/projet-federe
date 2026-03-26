@@ -1,12 +1,12 @@
-const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || '';
+const N8N_WEBHOOK_URL = 'https://unpatented-balding-sonia.ngrok-free.dev/webhook/34e4ed78-0bab-4473-a75c-6024a3bc9f22';
 
-export const sendToN8n = async (endpoint: string, data: any) => {
+export const sendToN8n = async (data: any) => {
   if (!N8N_WEBHOOK_URL) {
     console.warn('n8n webhook URL not configured. Mocking response.');
-    return mockN8nResponse(endpoint, data);
+    return mockN8nResponse('chat', data);
   }
   try {
-    const response = await fetch(`${N8N_WEBHOOK_URL}/${endpoint}`, {
+    const response = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

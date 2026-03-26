@@ -35,3 +35,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.5] - 2026-03-26
 ### Changed
 - Added Tunisian meals with real images and implemented custom meal logging with ingredients
+
+## [0.2.6] - 2026-03-26
+### Changed
+- Integrated n8n AI webhook for dynamic insights and chat
