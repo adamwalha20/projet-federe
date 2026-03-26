@@ -13,9 +13,9 @@ export default function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-surface dark:bg-slate-950 text-on-surface font-body pb-24">
+    <div className="min-h-screen bg-surface text-on-surface font-body pb-24">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-primary-container overflow-hidden ring-2 ring-primary-container/20">
             <img 
@@ -36,7 +36,7 @@ export default function Layout() {
       <Outlet />
 
       {/* BottomNav - Mobile Premium Style */}
-      <nav className="fixed bottom-4 left-4 right-4 h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl z-50 rounded-[2rem] border border-white/20 dark:border-slate-800/50 shadow-2xl flex justify-around items-center px-2">
+      <nav className="fixed bottom-4 left-4 right-4 h-20 bg-white/90 backdrop-blur-2xl z-50 rounded-[2rem] border border-slate-200/50 shadow-2xl flex justify-around items-center px-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -46,13 +46,13 @@ export default function Layout() {
               className={clsx(
                 "flex flex-col items-center justify-center w-14 h-14 transition-all duration-300 active:scale-90",
                 isActive 
-                  ? "text-primary dark:text-orange-400" 
-                  : "text-slate-400 dark:text-slate-500"
+                  ? "text-primary" 
+                  : "text-slate-400"
               )}
             >
               <div className={clsx(
                 "p-2 rounded-xl transition-all duration-300",
-                isActive && "bg-primary/10 dark:bg-orange-400/10"
+                isActive && "bg-primary/10"
               )}>
                 <span 
                   className="material-symbols-outlined block"

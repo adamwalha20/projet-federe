@@ -27,3 +27,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.3] - 2026-03-26
 ### Changed
 - Project Finalized: Fixed mobile navigation and dark mode; completed all translations
+
+## [0.2.4] - 2026-03-26
+### Changed
+- Fixed Mobile Theme: Reverted to white UI to match PC appearance
