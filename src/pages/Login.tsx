@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [searchParams] = useSearchParams();
+  const initialEmail = searchParams.get('email') || '';
+  const message = searchParams.get('message');
+  
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -54,6 +58,16 @@ const Login: React.FC = () => {
             <h1 className="font-headline text-4xl font-black italic text-orange-600 tracking-tighter">TuniFit</h1>
             <p className="font-label text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Votre éveil commence ici</p>
           </div>
+
+          {/* Feedback Messages */}
+          {message === 'account_exists' && (
+            <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
+              <span className="material-symbols-outlined text-orange-600">info</span>
+              <p className="text-sm font-medium text-orange-800">
+                Ce compte existe déjà. Veuillez vous connecter.
+              </p>
+            </div>
+          )}
 
           {/* Login Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>

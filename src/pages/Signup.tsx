@@ -24,11 +24,18 @@ const Signup: React.FC = () => {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('already registered')) {
+          navigate(`/login?email=${encodeURIComponent(email)}&message=account_exists`);
+          return;
+        }
+        throw error;
+      }
       
       if (data.user) {
-        // Redirect to onboarding
-        navigate('/onboarding');
+        // Redirection robuste
+        console.log('Signup successful, redirecting to onboarding...');
+        setTimeout(() => navigate('/onboarding'), 1500);
       }
     } catch (error: any) {
       console.error('Signup error:', error.message);

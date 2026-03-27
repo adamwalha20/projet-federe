@@ -19,6 +19,18 @@ interface MealLog {
   created_at: string;
 }
 
+interface UserProfile {
+  id: string;
+  full_name: string;
+  age: number;
+  weight: number;
+  height: number;
+  gender: string;
+  daily_step_goal: number;
+  daily_calorie_goal: number;
+  fitness_goal: string;
+}
+
 interface ActivityLog {
   id: string;
   user_id: string;
@@ -33,7 +45,6 @@ interface AppState {
   meals: MealLog[];
   activities: ActivityLog[];
   steps: number;
-  dailyCalorieGoal: number;
   fetchUserData: () => Promise<void>;
   logMeal: (meal: Omit<MealLog, 'id' | 'user_id' | 'created_at'>) => Promise<void>;
   logActivity: (activity: Omit<ActivityLog, 'id' | 'user_id' | 'created_at'>) => Promise<void>;
@@ -42,73 +53,81 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set, get) => ({
-  user: {
-    id: 'mock-id',
-    name: 'Amine Trabelsi',
-    age: 28,
-    weight: 82,
-    height: 184,
-    goal: 'Perte de poids'
-  },
+  user: null,
   meals: [],
   activities: [],
-  steps: 8432,
-  dailyCalorieGoal: 2260,
+  steps: 0,
 
   fetchUserData: async () => {
-    if (!supabase) return;
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const [profileRes, mealsRes, activitiesRes] = await Promise.all([
+      const [profileRes, mealsRes, activitiesRes, stepsRes] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', user.id).single(),
         supabase.from('meals').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
-        supabase.from('activities').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
+        supabase.from('activities').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
+        supabase.from('daily_steps').select('steps_count').eq('user_id', user.id).eq('date', new Date().toISOString().split('T')[0]).single()
       ]);
 
-      if (profileRes.data) set({ user: profileRes.data });
+      if (profileRes.data) {
+        const profileData: UserProfile = {
+          ...profileRes.data,
+          daily_step_goal: profileRes.data.daily_step_goal || 10000, // Default if not set
+          daily_calorie_goal: profileRes.data.daily_calorie_goal || 2000, // Default if not set
+          fitness_goal: profileRes.data.fitness_goal || 'Maintain Weight', // Default if not set
+        };
+        set({ user: profileData });
+      }
       if (mealsRes.data) set({ meals: mealsRes.data });
       if (activitiesRes.data) set({ activities: activitiesRes.data });
+      if (stepsRes.data) set({ steps: stepsRes.data.steps_count });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   },
 
   logMeal: async (meal) => {
-    const newMeal = { ...meal, id: Date.now().toString(), user_id: 'mock-id', created_at: new Date().toISOString() };
-    set((state) => ({ meals: [newMeal, ...state.meals] }));
-    
-    if (!supabase) return;
     const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase.from('meals').insert([{ ...meal, user_id: user.id }]);
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from('meals')
+      .insert([{ ...meal, user_id: user.id }])
+      .select()
+      .single();
+
+    if (data) {
+      set((state) => ({ meals: [data, ...state.meals] }));
     }
   },
 
   logActivity: async (activity) => {
-    const newActivity = { ...activity, id: Date.now().toString(), user_id: 'mock-id', created_at: new Date().toISOString() };
-    set((state) => ({ activities: [newActivity, ...state.activities] }));
+    const { data: { user } = { user: null } } = await supabase.auth.getUser();
+    if (!user) return;
 
-    if (!supabase) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase.from('activities').insert([{ ...activity, user_id: user.id }]);
+    const { data, error } = await supabase
+      .from('activities')
+      .insert([{ ...activity, user_id: user.id }])
+      .select()
+      .single();
+
+    if (data) {
+      set((state) => ({ activities: [data, ...state.activities] }));
     }
   },
 
   updateSteps: async (steps) => {
+    const { data: { user } = { user: null } } = await supabase.auth.getUser();
+    if (!user) return;
+
     set({ steps });
-    if (!supabase) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase.from('daily_steps')
-        .upsert({ 
-          user_id: user.id, 
-          date: new Date().toISOString().split('T')[0], 
-          steps_count: steps 
-        }, { onConflict: 'user_id,date' });
-    }
+    await supabase.from('daily_steps')
+      .upsert({ 
+        user_id: user.id, 
+        date: new Date().toISOString().split('T')[0], 
+        steps_count: steps 
+      }, { onConflict: 'user_id,date' });
   },
   setSteps: (steps) => set({ steps })
 }));
