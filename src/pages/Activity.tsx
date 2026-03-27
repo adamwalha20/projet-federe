@@ -1,7 +1,77 @@
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
+import { supabase } from '../lib/supabase';
+import { format, subDays, startOfDay } from 'date-fns';
 
 export default function Activity() {
-  const { steps, activities, logActivity } = useStore();
+  const { steps, activities, logActivity, setSteps } = useStore();
+  const [manualSteps, setManualSteps] = useState('');
+  const [history, setHistory] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
+  const fetchHistory = async () => {
+    setLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Fetch last 7 days
+      const { data, error } = await supabase
+        .from('daily_steps')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('date', { ascending: false })
+        .limit(7);
+
+      if (error) throw error;
+      setHistory(data || []);
+      
+      // Update today's steps in store if found
+      const today = format(new Date(), 'yyyy-MM-dd');
+      const todayRecord = data?.find(r => r.date === today);
+      if (todayRecord) {
+        setSteps(todayRecord.steps_count);
+      }
+    } catch (error) {
+      console.error('Error fetching history:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleManualStepEntry = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!manualSteps) return;
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const today = format(new Date(), 'yyyy-MM-dd');
+      const count = parseInt(manualSteps);
+
+      const { error } = await supabase
+        .from('daily_steps')
+        .upsert({
+          user_id: user.id,
+          date: today,
+          steps_count: count,
+        }, { onConflict: 'user_id,date' });
+
+      if (error) throw error;
+      
+      setSteps(count);
+      setManualSteps('');
+      fetchHistory();
+      alert('Pas mis à jour !');
+    } catch (error) {
+      console.error('Error updating steps:', error);
+    }
+  };
 
   const handleAddActivity = (type: string, calories: number) => {
     logActivity({
@@ -34,6 +104,24 @@ export default function Activity() {
               <span className="font-label text-sm uppercase tracking-widest text-outline">/ 10,000 steps</span>
             </div>
           </div>
+          
+          {/* Manual Entry Form */}
+          <form onSubmit={handleManualStepEntry} className="mb-6 flex gap-2 w-full max-w-xs">
+            <input 
+              type="number" 
+              placeholder="Ajouter des pas..." 
+              value={manualSteps}
+              onChange={(e) => setManualSteps(e.target.value)}
+              className="flex-1 px-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-orange-500 text-on-surface text-sm"
+            />
+            <button 
+              type="submit"
+              className="bg-orange-600 text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform"
+            >
+              Ajouter
+            </button>
+          </form>
+
           <div className="flex items-center gap-2 bg-secondary-container/30 px-4 py-2 rounded-full">
             <span className="material-symbols-outlined text-secondary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
             <p className="font-body font-semibold text-secondary text-sm tracking-tight">Almost there! Keep it up.</p>
@@ -65,44 +153,32 @@ export default function Activity() {
       <section className="bg-surface-container p-6 rounded-3xl">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h2 className="font-headline font-bold text-xl text-on-surface">Statistics</h2>
-            <p className="font-body text-sm text-outline">Weekly Average : 7.2k</p>
-          </div>
-          <div className="flex gap-2">
-            <span className="w-2 h-2 rounded-full bg-primary"></span>
-            <span className="w-2 h-2 rounded-full bg-outline-variant"></span>
+            <h2 className="font-headline font-bold text-xl text-on-surface">History</h2>
+            <p className="font-body text-sm text-outline">Last 7 days behavior</p>
           </div>
         </div>
         
         <div className="flex items-end justify-between h-40 gap-2">
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-surface-container-high rounded-t-lg h-[40%]"></div>
-            <span className="font-label text-[10px] text-outline">M</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-surface-container-high rounded-t-lg h-[65%]"></div>
-            <span className="font-label text-[10px] text-outline">T</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-surface-container-high rounded-t-lg h-[50%]"></div>
-            <span className="font-label text-[10px] text-outline">W</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-primary rounded-t-lg h-[85%] shadow-[0_0_20px_rgba(159,66,0,0.2)]"></div>
-            <span className="font-label text-[10px] text-on-surface font-bold">T</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-surface-container-high rounded-t-lg h-[45%]"></div>
-            <span className="font-label text-[10px] text-outline">F</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-surface-container-high rounded-t-lg h-[60%]"></div>
-            <span className="font-label text-[10px] text-outline">S</span>
-          </div>
-          <div className="flex-1 flex flex-col items-center gap-3">
-            <div className="w-full bg-surface-container-high rounded-t-lg h-[30%]"></div>
-            <span className="font-label text-[10px] text-outline">S</span>
-          </div>
+          {[...Array(7)].map((_, i) => {
+            const date = subDays(new Date(), 6 - i);
+            const dateStr = format(date, 'yyyy-MM-dd');
+            const dayRecord = history.find(r => r.date === dateStr);
+            const stepCount = dayRecord ? dayRecord.steps_count : 0;
+            const height = Math.min((stepCount / 10000) * 100, 100);
+            const isToday = i === 6;
+
+            return (
+              <div key={i} className="flex-1 flex flex-col items-center gap-3">
+                <div 
+                  className={`w-full rounded-t-lg transition-all duration-500 ${isToday ? 'bg-orange-600 shadow-[0_0_20px_rgba(255,109,0,0.2)]' : 'bg-surface-container-high'}`}
+                  style={{ height: `${Math.max(height, 5)}%` }}
+                ></div>
+                <span className={`font-label text-[10px] ${isToday ? 'text-on-surface font-bold' : 'text-outline'}`}>
+                  {format(date, 'EEE').charAt(0)}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </section>
 

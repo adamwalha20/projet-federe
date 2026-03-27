@@ -38,6 +38,7 @@ interface AppState {
   logMeal: (meal: Omit<MealLog, 'id' | 'user_id' | 'created_at'>) => Promise<void>;
   logActivity: (activity: Omit<ActivityLog, 'id' | 'user_id' | 'created_at'>) => Promise<void>;
   updateSteps: (steps: number) => Promise<void>;
+  setSteps: (steps: number) => void;
 }
 
 export const useStore = create<AppState>((set, get) => ({
@@ -101,9 +102,13 @@ export const useStore = create<AppState>((set, get) => ({
     if (!supabase) return;
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      // Assuming a daily_stats table
-      await supabase.from('daily_stats')
-        .upsert({ user_id: user.id, date: new Date().toISOString().split('T')[0], steps });
+      await supabase.from('daily_steps')
+        .upsert({ 
+          user_id: user.id, 
+          date: new Date().toISOString().split('T')[0], 
+          steps_count: steps 
+        }, { onConflict: 'user_id,date' });
     }
-  }
+  },
+  setSteps: (steps) => set({ steps })
 }));

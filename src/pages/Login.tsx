@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -7,11 +8,25 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, any login is successful and redirects to home
     console.log('Login attempt:', { email });
-    navigate('/');
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      
+      if (data.user) {
+        navigate('/');
+      }
+    } catch (error: any) {
+      console.error('Login error:', error.message);
+      alert(error.message);
+    }
   };
 
   return (
