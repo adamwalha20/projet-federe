@@ -61,6 +61,13 @@ const Login: React.FC = () => {
             <p className="font-label text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Votre éveil commence ici</p>
           </div>
 
+          {!supabase && (
+            <div className="bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-r-lg font-body text-sm mb-6">
+              <p className="font-bold">Attention</p>
+              <p>Supabase n'est pas configuré. Veuillez ajouter les variables d'environnement dans Vercel.</p>
+            </div>
+          )}
+
           {error && (
             <div className="bg-error-container/20 border-l-4 border-error text-error p-4 rounded-r-lg font-body text-sm mb-6">
               {error}

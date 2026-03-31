@@ -76,6 +76,13 @@ const Signup: React.FC = () => {
             </div>
           )}
 
+          {!supabase && (
+            <div className="bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-r-lg font-body text-sm mb-6">
+              <p className="font-bold">Attention</p>
+              <p>Supabase n'est pas configuré. Veuillez ajouter les variables d'environnement dans Vercel.</p>
+            </div>
+          )}
+
           {/* Signup Card */}
           <div className="surface-container-lowest glass-card p-8 rounded-xl shadow-sm space-y-6">
             <form className="space-y-5" onSubmit={handleSubmit}>

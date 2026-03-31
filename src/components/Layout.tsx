@@ -10,6 +10,8 @@ export default function Layout() {
   const { fetchUserData } = useStore();
 
   useEffect(() => {
+    if (!supabase) return;
+
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
