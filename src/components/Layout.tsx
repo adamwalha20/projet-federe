@@ -1,15 +1,36 @@
 import { useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useStore } from '../store/useStore';
+import { supabase } from '../lib/supabase';
 
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { fetchUserData } = useStore();
 
   useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate('/login');
+      } else {
+        fetchUserData();
+      }
+    };
+
+    checkAuth();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || !session) {
+        navigate('/login');
+      }
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [fetchUserData, navigate]);
 
 
   const navItems = [

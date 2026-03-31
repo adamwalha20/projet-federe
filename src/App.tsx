@@ -14,33 +14,17 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ProfileObjectives from './pages/ProfileObjectives';
 import ScrollToTop from './components/ScrollToTop';
-import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
+
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        
-        <Route 
-          path="/profile-objectives" 
-          element={
-            <ProtectedRoute>
-              <ProfileObjectives />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/" 
-          element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="/profile-objectives" element={<ProfileObjectives />} />
+        <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="meals" element={<Meals />} />
           <Route path="activity" element={<Activity />} />
