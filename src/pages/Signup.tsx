@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -7,11 +8,37 @@ const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Signup attempt:', { fullName, email });
-    navigate('/');
+    setLoading(true);
+    setError(null);
+    
+    if (!supabase) {
+      setError('Erreur de configuration: Supabase non connecté.');
+      setLoading(false);
+      return;
+    }
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        }
+      }
+    });
+
+    setLoading(false);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate('/profile-objectives');
+    }
   };
 
   return (
@@ -19,8 +46,8 @@ const Signup: React.FC = () => {
       {/* TopAppBar */}
       <header className="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl">
         <div className="flex items-center justify-between px-6 py-4 w-full max-w-screen-xl mx-auto">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-orange-600" data-icon="fitness_center">fitness_center</span>
+          <Link to="/" className="flex items-center gap-3">
+            <img src="/logo.png" alt="TuniFit Logo" className="w-10 h-10 object-contain drop-shadow-sm" />
             <h1 className="text-2xl font-black italic text-orange-600 tracking-tighter font-headline">TuniFit</h1>
           </Link>
           <button className="text-slate-500 font-label text-xs font-semibold uppercase tracking-widest hover:text-orange-500 transition-colors">Aide</button>
@@ -42,6 +69,12 @@ const Signup: React.FC = () => {
               Rejoignez la communauté et commencez à transformer votre routine dès aujourd'hui.
             </p>
           </div>
+          
+          {error && (
+            <div className="bg-error-container/20 border-l-4 border-error text-error p-4 rounded-r-lg font-body text-sm mb-4">
+              {error}
+            </div>
+          )}
 
           {/* Signup Card */}
           <div className="surface-container-lowest glass-card p-8 rounded-xl shadow-sm space-y-6">
@@ -112,11 +145,12 @@ const Signup: React.FC = () => {
 
               {/* Submit Button */}
               <button 
-                className="w-full bg-[linear-gradient(135deg,#9f4200_0%,#ff6d00_100%)] text-on-primary font-bold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 group" 
+                className={`w-full bg-[linear-gradient(135deg,#9f4200_0%,#ff6d00_100%)] text-on-primary font-bold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 group ${loading ? 'opacity-70 cursor-not-allowed' : ''}`} 
                 type="submit"
+                disabled={loading}
               >
-                Commencer l'aventure
-                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                {loading ? 'Création...' : "Commencer l'aventure"}
+                {!loading && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>}
               </button>
             </form>
 

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WakeUp - Configuration du Profil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#75d5e2",
+                        "outline-variant": "#e2bfb0",
+                        "on-tertiary-container": "#00373f",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "on-surface-variant": "#594136",
+                        "surface-tint": "#9f4200",
+                        "on-secondary-fixed": "#001f23",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "background": "#f8f9fa",
+                        "surface": "#f8f9fa",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#582100",
+                        "inverse-primary": "#ffb692",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-container": "#00a9be",
+                        "surface-bright": "#f8f9fa",
+                        "primary-fixed-dim": "#ffb692",
+                        "on-surface": "#191c1d",
+                        "error-container": "#ffdad6",
+                        "outline": "#8d7164",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#92f1fe",
+                        "primary-container": "#ff6d00",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "primary-fixed": "#ffdbcb",
+                        "tertiary-fixed": "#9eefff",
+                        "tertiary": "#006876",
+                        "primary": "#9f4200",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004e59",
+                        "on-secondary-container": "#006d77",
+                        "on-primary-fixed": "#341100",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary-fixed": "#001f24",
+                        "tertiary-fixed-dim": "#55d7ed",
+                        "secondary": "#006972",
+                        "secondary-container": "#8feefc",
+                        "on-background": "#191c1d"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container/30">
+<!-- Top Navigation Anchor (Manual as per transactional rule: No shell on onboarding) -->
+<header class="sticky top-0 z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md flex justify-between items-center w-full px-6 h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_back">arrow_back</span>
+</div>
+<h1 class="font-headline font-black text-xl text-orange-600 tracking-tighter">WakeUp</h1>
+<div class="w-6"></div> <!-- Spacer for symmetry -->
+</header>
+<main class="max-w-xl mx-auto px-6 py-8 pb-32">
+<!-- Hero Section -->
+<section class="mb-12">
+<h2 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-3 leading-tight">
+                Créez votre <span class="text-primary">énergie</span>.
+            </h2>
+<p class="text-on-surface-variant font-body text-lg max-w-[85%]">
+                Commençons par les bases pour personnaliser votre parcours santé de précision.
+            </p>
+</section>
+<!-- Profile Configuration Cards (Bento Style) -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Age & Weight Grid -->
+<div class="col-span-1 space-y-4">
+<div class="bg-surface-container-lowest p-6 rounded-3xl transition-all border border-transparent hover:border-primary/10 shadow-sm">
+<label class="block font-label text-[10px] uppercase tracking-widest text-slate-400 mb-4">Âge</label>
+<div class="flex items-end gap-2">
+<input class="w-full bg-transparent border-none p-0 text-3xl font-headline font-bold focus:ring-0 text-on-surface placeholder-surface-dim" placeholder="25" type="number"/>
+<span class="text-on-surface-variant font-medium pb-1 text-sm">ans</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl transition-all border border-transparent hover:border-primary/10 shadow-sm">
+<label class="block font-label text-[10px] uppercase tracking-widest text-slate-400 mb-4">Poids (kg)</label>
+<div class="flex items-end gap-2">
+<input class="w-full bg-transparent border-none p-0 text-3xl font-headline font-bold focus:ring-0 text-on-surface placeholder-surface-dim" placeholder="70.5" step="0.1" type="number"/>
+<span class="text-on-surface-variant font-medium pb-1 text-sm">kg</span>
+</div>
+</div>
+</div>
+<!-- Height Card (Asymmetric tall) -->
+<div class="col-span-1">
+<div class="h-full bg-surface-container-lowest p-6 rounded-3xl transition-all border border-transparent hover:border-primary/10 shadow-sm flex flex-col justify-between overflow-hidden relative">
+<div>
+<label class="block font-label text-[10px] uppercase tracking-widest text-slate-400 mb-4">Taille (cm)</label>
+<div class="flex items-end gap-2">
+<input class="w-full bg-transparent border-none p-0 text-3xl font-headline font-bold focus:ring-0 text-on-surface placeholder-surface-dim" placeholder="178" type="number"/>
+<span class="text-on-surface-variant font-medium pb-1 text-sm">cm</span>
+</div>
+</div>
+<div class="mt-8 opacity-20 pointer-events-none flex justify-center">
+<!-- Abstract Visual Representative of height scale -->
+<div class="flex items-end gap-1.5 h-32">
+<div class="w-1 bg-primary rounded-full h-[20%]"></div>
+<div class="w-1 bg-primary rounded-full h-[40%]"></div>
+<div class="w-1 bg-primary rounded-full h-[60%]"></div>
+<div class="w-1 bg-primary rounded-full h-[85%]"></div>
+<div class="w-1 bg-primary rounded-full h-[100%]"></div>
+<div class="w-1 bg-primary rounded-full h-[80%]"></div>
+<div class="w-1 bg-primary rounded-full h-[50%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Goal Selection Section -->
+<div class="col-span-2 mt-2">
+<label class="block font-label text-[10px] uppercase tracking-widest text-slate-400 mb-4 px-2">Objectif Principal</label>
+<div class="grid grid-cols-1 gap-3">
+<!-- Option: Weight Loss -->
+<label class="relative group cursor-pointer">
+<input checked="" class="peer sr-only" name="goal" type="radio"/>
+<div class="flex items-center justify-between p-5 rounded-[2rem] bg-surface-container-lowest border border-transparent peer-checked:border-primary/20 peer-checked:bg-orange-50/50 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Perte de Poids</p>
+<p class="text-xs text-on-surface-variant">Brûler des calories &amp; tonicité</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-variant peer-checked:border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<!-- Option: Muscle Gain -->
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="goal" type="radio"/>
+<div class="flex items-center justify-between p-5 rounded-[2rem] bg-surface-container-lowest border border-transparent peer-checked:border-primary/20 peer-checked:bg-orange-50/50 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/30 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Prise de Muscle</p>
+<p class="text-xs text-on-surface-variant">Force &amp; hypertrophie</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-variant peer-checked:border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<!-- Option: Maintenance -->
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="goal" type="radio"/>
+<div class="flex items-center justify-between p-5 rounded-[2rem] bg-surface-container-lowest border border-transparent peer-checked:border-primary/20 peer-checked:bg-orange-50/50 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-tertiary-fixed/20 flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="self_improvement">self_improvement</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Maintenance</p>
+<p class="text-xs text-on-surface-variant">Santé globale &amp; vitalité</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-variant peer-checked:border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Visual Motivator Image Card -->
+<div class="mt-8 relative overflow-hidden rounded-[2.5rem] aspect-[16/9] shadow-2xl shadow-orange-900/10">
+<img alt="Portrait of determined athlete in high-end minimalist fitness studio" class="absolute inset-0 w-full h-full object-cover" data-alt="cinematic close-up of a determined young athlete sweating slightly in a sunlit minimalist fitness studio with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV7Uv0A5BcQspN4uZqq3yUr1zWWZGhyI0883mDE7_YkJRUQq_bsKiPC5ePJ_uKi_7u1yb_1MRzZ-COd6jdFOr90xo3GMFd3nsOIUrv7qN74TmGos2TWw4llQyZO9udJ8bKO6-tAzcr-tv3zlgmQ_z_0M9065wjIJ8RrKMgWsOHUzFGXisl96K-izQ04D95_8cU1QcZR3dg-X_g-tLpW8M6LTbTiKoyJfHJ8AYw3TQcG6edKXytegmQha6zFerR0oLOUY7qiNWYE9Bx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+<p class="text-white font-headline font-bold text-xl leading-snug">
+                    Votre précision aujourd'hui définit votre force demain.
+                </p>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom Action Area -->
+<footer class="fixed bottom-0 left-0 w-full p-6 z-50">
+<div class="max-w-xl mx-auto">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-white py-5 rounded-full font-headline font-extrabold text-lg shadow-lg shadow-primary/25 active:scale-95 transition-transform">
+                Terminer la configuration
+            </button>
+<div class="mt-4 flex justify-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<div class="w-4 h-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+</footer>
+</body></html>

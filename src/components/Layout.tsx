@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
+import { useStore } from '../store/useStore';
 
 export default function Layout() {
   const location = useLocation();
+  const { fetchUserData } = useStore();
+
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
 
   const navItems = [
     { path: '/', icon: 'home', label: 'Home' },
@@ -17,15 +25,8 @@ export default function Layout() {
       {/* TopAppBar */}
       <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-primary-container overflow-hidden ring-2 ring-primary-container/20">
-            <img 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJKYvZA4KFfskogvSD5QDlvszqwNVobfu6ezXsaHXWETCynVcDELWjWnAdiu4L7-YH26sPMepLTSjwCPvmyYrSDeenswAlxxDGvznPvqQHrC5LAtIxVJPFSGs41tLyy-cznsZkUk01XrQ4_OwaK0cJZ7vX3Ln8PjaPOV_X2HtLcvNgbsBuOh4WHckGQqt9CvIW4B6f9FS3g_t5ASzu9xn3C1epD4Ko1NpNPgx88hVbTyfrYIdg_iUDfc_ZWF2ZxmqRk0-GE-GM1Ann" 
-              alt="User" 
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-          <span className="text-2xl font-black italic text-orange-600 dark:text-orange-500 font-headline tracking-tight">TuniFit</span>
+          <img src="/logo.png" alt="TuniFit Logo" className="w-10 h-10 object-contain drop-shadow-sm" />
+          <span className="text-2xl font-black italic text-orange-600 dark:text-orange-500 font-headline tracking-tighter">TuniFit</span>
         </div>
         <button className="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-orange-600 hover:opacity-80 transition-opacity active:scale-95">
           <span className="material-symbols-outlined">notifications</span>

@@ -1,17 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, any login is successful and redirects to home
-    console.log('Login attempt:', { email });
-    navigate('/');
+    setLoading(true);
+    setError(null);
+    
+    if (!supabase) {
+      setError('Erreur de configuration: Supabase non connecté.');
+      setLoading(false);
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate('/');
+    }
   };
 
   return (
@@ -32,13 +53,19 @@ const Login: React.FC = () => {
         <div className="bg-white/90 backdrop-blur-2xl rounded-[2.5rem] p-10 shadow-2xl transition-all duration-300 border border-white/20">
           {/* Brand Identity Anchor */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
-              <span className="material-symbols-outlined text-white text-4xl">fitness_center</span>
+            <div className="w-20 h-20 bg-white/50 backdrop-blur-sm rounded-3xl flex items-center justify-center mb-6 shadow-xl shadow-primary/10 border border-white/40 group hover:scale-105 transition-transform duration-500">
+              <img src="/logo.png" alt="TuniFit Logo" className="w-14 h-14 object-contain drop-shadow-md" />
             </div>
             {/* Brand Casing Integrity: TuniFit */}
             <h1 className="font-headline text-4xl font-black italic text-orange-600 tracking-tighter">TuniFit</h1>
             <p className="font-label text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Votre éveil commence ici</p>
           </div>
+
+          {error && (
+            <div className="bg-error-container/20 border-l-4 border-error text-error p-4 rounded-r-lg font-body text-sm mb-6">
+              {error}
+            </div>
+          )}
 
           {/* Login Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -92,11 +119,12 @@ const Login: React.FC = () => {
 
             {/* Login Button */}
             <button 
-              className="w-full py-4 px-6 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold text-lg rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group" 
+              className={`w-full py-4 px-6 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold text-lg rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group ${loading ? 'opacity-70 cursor-not-allowed' : ''}`} 
               type="submit"
+              disabled={loading}
             >
-              <span>Se connecter</span>
-              <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+              <span>{loading ? 'Connexion...' : 'Se connecter'}</span>
+              {!loading && <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>}
             </button>
           </form>
 

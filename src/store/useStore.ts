@@ -41,24 +41,20 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set, get) => ({
-  user: {
-    id: 'mock-id',
-    name: 'Amine Trabelsi',
-    age: 28,
-    weight: 82,
-    height: 184,
-    goal: 'Perte de poids'
-  },
+  user: null,
   meals: [],
   activities: [],
-  steps: 8432,
+  steps: 0,
   dailyCalorieGoal: 2260,
 
   fetchUserData: async () => {
     if (!supabase) return;
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        set({ user: null, meals: [], activities: [], steps: 0 });
+        return;
+      }
 
       const [profileRes, mealsRes, activitiesRes] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', user.id).single(),
@@ -66,44 +62,82 @@ export const useStore = create<AppState>((set, get) => ({
         supabase.from('activities').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
       ]);
 
-      if (profileRes.data) set({ user: profileRes.data });
+      if (profileRes.data) {
+        set({ 
+          user: {
+            id: profileRes.data.id,
+            name: profileRes.data.full_name || user.user_metadata?.full_name || 'Utilisateur',
+            age: profileRes.data.age || 0,
+            weight: profileRes.data.weight || 0,
+            height: profileRes.data.height || 0,
+            goal: profileRes.data.goal || 'maintenance'
+          } 
+        });
+      } else {
+        // Fallback if profile doesn't exist yet but user is authenticated
+        set({
+          user: {
+            id: user.id,
+            name: user.user_metadata?.full_name || 'Utilisateur',
+            age: 0,
+            weight: 0,
+            height: 0,
+            goal: 'maintenance'
+          }
+        });
+      }
       if (mealsRes.data) set({ meals: mealsRes.data });
       if (activitiesRes.data) set({ activities: activitiesRes.data });
+      
+      const today = new Date().toISOString().split('T')[0];
+      const { data: statsData } = await supabase.from('daily_stats').select('steps').eq('user_id', user.id).eq('date', today).single();
+      if (statsData) {
+        set({ steps: statsData.steps });
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   },
 
   logMeal: async (meal) => {
-    const newMeal = { ...meal, id: Date.now().toString(), user_id: 'mock-id', created_at: new Date().toISOString() };
+    if (!supabase) return;
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return;
+    
+    const newMeal = { ...meal, id: Date.now().toString(), user_id: session.user.id, created_at: new Date().toISOString() };
     set((state) => ({ meals: [newMeal, ...state.meals] }));
     
-    if (!supabase) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase.from('meals').insert([{ ...meal, user_id: user.id }]);
-    }
+    await supabase.from('meals').insert([{ ...meal, user_id: session.user.id }]);
   },
 
   logActivity: async (activity) => {
-    const newActivity = { ...activity, id: Date.now().toString(), user_id: 'mock-id', created_at: new Date().toISOString() };
+    if (!supabase) return;
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return;
+
+    const newActivity = { ...activity, id: Date.now().toString(), user_id: session.user.id, created_at: new Date().toISOString() };
     set((state) => ({ activities: [newActivity, ...state.activities] }));
 
-    if (!supabase) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase.from('activities').insert([{ ...activity, user_id: user.id }]);
-    }
+    await supabase.from('activities').insert([{ ...activity, user_id: session.user.id }]);
   },
 
   updateSteps: async (steps) => {
     set({ steps });
     if (!supabase) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      // Assuming a daily_stats table
-      await supabase.from('daily_stats')
-        .upsert({ user_id: user.id, date: new Date().toISOString().split('T')[0], steps });
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return;
+    
+    // We update the steps for today. The unique constraint on (user_id, date) 
+    // in daily_stats (if set) allows upserting.
+    const { error } = await supabase.from('daily_stats')
+      .upsert({ 
+        user_id: session.user.id, 
+        date: new Date().toISOString().split('T')[0], 
+        steps 
+      }, { onConflict: 'user_id,date' });
+
+    if (error) {
+      console.error('Error updating steps:', error);
     }
   }
 }));

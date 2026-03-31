@@ -13,7 +13,8 @@ export default function Home() {
   useEffect(() => {
     // Fetch AI insight on load
     const fetchInsight = async () => {
-      const res = await sendToN8n('recommendations', {
+      const res = await sendToN8n({
+        type: 'recommendations',
         user,
         caloriesConsumed,
         steps,
@@ -57,16 +58,6 @@ export default function Home() {
                 <div>
                   <span className="block font-bold text-lg leading-none">{steps.toLocaleString()}</span>
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Steps</span>
-                </div>
-              </div>
-              {/* Small Ring: Water */}
-              <div className="flex items-center gap-3 bg-surface-container-low p-4 rounded-2xl">
-                <div className="w-12 h-12 rounded-full border-4 border-tertiary flex items-center justify-center">
-                  <span className="material-symbols-outlined text-tertiary text-sm">water_drop</span>
-                </div>
-                <div>
-                  <span className="block font-bold text-lg leading-none">1.2 L</span>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Water</span>
                 </div>
               </div>
             </div>
@@ -126,19 +117,27 @@ export default function Home() {
         <div className="lg:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link to="/meals" className="bg-surface-container p-6 rounded-[1.5rem] flex flex-col items-center gap-3 hover:bg-primary-fixed transition-colors">
             <span className="material-symbols-outlined text-primary text-3xl">add_circle</span>
-            <span className="text-xs font-bold text-on-surface uppercase tracking-widest">Log Food</span>
+            <span className="text-xs font-bold text-on-surface uppercase tracking-widest text-center">Log Food</span>
           </Link>
           <Link to="/activity" className="bg-surface-container p-6 rounded-[1.5rem] flex flex-col items-center gap-3 hover:bg-secondary-fixed transition-colors">
             <span className="material-symbols-outlined text-secondary text-3xl">fitness_center</span>
-            <span className="text-xs font-bold text-on-surface uppercase tracking-widest">Log Activity</span>
+            <span className="text-xs font-bold text-on-surface uppercase tracking-widest text-center">Log Activity</span>
           </Link>
-          <button className="bg-surface-container p-6 rounded-[1.5rem] flex flex-col items-center gap-3 hover:bg-tertiary-fixed transition-colors">
-            <span className="material-symbols-outlined text-tertiary text-3xl">opacity</span>
-            <span className="text-xs font-bold text-on-surface uppercase tracking-widest">Add Water</span>
+          <button 
+            onClick={() => {
+              const input = window.prompt("Entrez votre nombre de pas d'aujourd'hui :");
+              if (input && !isNaN(parseInt(input))) {
+                useStore.getState().updateSteps(parseInt(input));
+              }
+            }}
+            className="bg-surface-container p-6 rounded-[1.5rem] flex flex-col items-center gap-3 hover:bg-orange-100 transition-colors"
+          >
+            <span className="material-symbols-outlined text-orange-600 text-3xl">footprint</span>
+            <span className="text-xs font-bold text-on-surface uppercase tracking-widest text-center">Log Steps</span>
           </button>
           <Link to="/profile" className="bg-surface-container p-6 rounded-[1.5rem] flex flex-col items-center gap-3 hover:bg-outline-variant transition-colors">
             <span className="material-symbols-outlined text-slate-600 text-3xl">straighten</span>
-            <span className="text-xs font-bold text-on-surface uppercase tracking-widest">Update Weight</span>
+            <span className="text-xs font-bold text-on-surface uppercase tracking-widest text-center">Update Weight</span>
           </Link>
         </div>
       </div>

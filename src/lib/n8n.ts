@@ -3,7 +3,7 @@ const N8N_WEBHOOK_URL = 'https://unpatented-balding-sonia.ngrok-free.dev/webhook
 export const sendToN8n = async (data: any) => {
   if (!N8N_WEBHOOK_URL) {
     console.warn('n8n webhook URL not configured. Mocking response.');
-    return mockN8nResponse('chat', data);
+    return mockN8nResponse(data?.type || 'chat', data);
   }
   try {
     const response = await fetch(N8N_WEBHOOK_URL, {

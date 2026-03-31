@@ -12,13 +12,18 @@ import Profile from './pages/Profile';
 import AI from './pages/AI';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ProfileObjectives from './pages/ProfileObjectives';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
+
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile-objectives" element={<ProfileObjectives />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="meals" element={<Meals />} />
