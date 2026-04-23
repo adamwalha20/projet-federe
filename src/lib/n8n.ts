@@ -1,4 +1,4 @@
-const N8N_WEBHOOK_URL = 'https://unpatented-balding-sonia.ngrok-free.dev/webhook/34e4ed78-0bab-4473-a75c-6024a3bc9f22';
+const N8N_WEBHOOK_URL = 'https://unpatented-balding-sonia.ngrok-free.dev/webhook/2aad6b89-15df-4cdb-a8c6-25906b03f034';
 
 export const sendToN8n = async (data: any) => {
   if (!N8N_WEBHOOK_URL) {
